@@ -1,0 +1,17 @@
+﻿using InteractiveMenuDemo.Entitys;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InteractiveMenuDemo.Data
+{
+    interface IPersonDao
+    {
+        Person Save(Person person);
+        Person FindById(int id);
+        List<Person> FindAll();
+        void Remove(int id);
+    }
+}
