@@ -37,7 +37,7 @@ namespace InteractiveMenuDemo.Entitys
                     BackgroundColor = ConsoleColor.Black;
                 }
 
-                WriteLine($"{currentOption}");
+                WriteLine($"-{currentOption}-");
             }
             ResetColor();
         }

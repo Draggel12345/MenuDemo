@@ -30,7 +30,7 @@ namespace InteractiveMenuDemo.Service
 ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝                                                                     
 Use the up and down arrow keys to navigate in the menu
 and press enter to interact.";
-            string[] options = { "\nRegister Person", "Remove Person", "Find Members", "About", "Exit" };
+            string[] options = { "Register Person", "Remove Person", "Find Members", "About", "Exit" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
 
@@ -74,7 +74,7 @@ and press enter to interact.";
 ██╔══╝  ██║██║╚██╗██║██║  ██║
 ██║     ██║██║ ╚████║██████╔╝
 ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝ ";
-            string[] options = { "\nAll Members", "Find By Id", "Return To Main Menu" };
+            string[] options = { "All Members", "Find By Id", "Return To Main Menu" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
 
