@@ -20,7 +20,7 @@ namespace InteractiveMenuDemo.Entitys
 
         public override string ToString()
         {
-            return $"\t\t\t\t\tID: {Id}-\n\t\t\t\t\tHi!\n\t\t\t\t\tMy name is {FullName.ToLower()}. I'm a {Age}{(Age > 1 ? " years" : " year")} old {Gender.ToLower()}.\n\t\t\t\t\tMy email is {Email.ToLower()} you can contact me there,\n\t\t\t\t\tor call me on my phone {PhoneNumber}.";
+            return $"INFO -\n\nID: {Id}.\nGender: {Gender}.\nFull name: {FullName}.\nAge: {Age}{(Age > 1 ? "years" : "year")}.\n\nCONTACT INFO -\nEmail: {Email}.\nPhone number: {PhoneNumber}.";
         }
     }
 }

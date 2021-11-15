@@ -20,8 +20,17 @@ namespace InteractiveMenuDemo.Service
 
         private void RunMainMenu()
         {
-            string prompt = "\t\t\t\t\t\t Main Menu\n\t\t\t\tUse the up and down arrow keys to navigate in the menu\n\t\t\t\t\tand press enter to interact with the menu.\n";
-            string[] options = { "\t\t\t\t\t\tRegister Person", "\t\t\t\t\t\tRemove Person", "\t\t\t\t\t\tFind Members", "\t\t\t\t\t\tAbout", "\t\t\t\t\t\tExit" };
+            CursorVisible = false;
+            string prompt = @"
+███╗   ███╗ █████╗ ██╗███╗   ██╗
+████╗ ████║██╔══██╗██║████╗  ██║
+██╔████╔██║███████║██║██╔██╗ ██║
+██║╚██╔╝██║██╔══██║██║██║╚██╗██║
+██║ ╚═╝ ██║██║  ██║██║██║ ╚████║
+╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝                                                                     
+Use the up and down arrow keys to navigate in the menu
+and press enter to interact.";
+            string[] options = { "\nRegister Person", "Remove Person", "Find Members", "About", "Exit" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
 
@@ -57,8 +66,15 @@ namespace InteractiveMenuDemo.Service
 
         private void DisplayFindMenu()
         {
-            string prompt = "\t\t\t\t\t\tDemo Start Menu\n";
-            string[] options = { "\t\t\t\t\t\tAll Members", "\t\t\t\t\t\tFind By Id", "\t\t\t\t\t\tReturn To Main Menu" };
+            CursorVisible = false;
+            string prompt = @"
+███████╗██╗███╗   ██╗██████╗ 
+██╔════╝██║████╗  ██║██╔══██╗
+█████╗  ██║██╔██╗ ██║██║  ██║
+██╔══╝  ██║██║╚██╗██║██║  ██║
+██║     ██║██║ ╚████║██████╔╝
+╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝ ";
+            string[] options = { "\nAll Members", "Find By Id", "Return To Main Menu" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
 
@@ -84,63 +100,63 @@ namespace InteractiveMenuDemo.Service
 
         private void Register()
         {
-            ConsoleKey keyPressed;
-            Clear();
-            Write("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\tPress Enter to continue or back space to go back to menu.");
-            ConsoleKeyInfo keyInfo = ReadKey(true);
-            keyPressed = keyInfo.Key;
-            
-            if (keyPressed == ConsoleKey.Backspace)
-            {
-                RunMainMenu();
-            }
             Clear();
             CursorVisible = true;
-            WriteLine("\t\t\t\t\t\tRegister :\n");
-            Write("\t\t\t\tEnter in your full name: ");
+            WriteLine(@" 
+██████╗ ███████╗ ██████╗ ██╗███████╗████████╗███████╗██████╗ 
+██╔══██╗██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗
+██████╔╝█████╗  ██║  ███╗██║███████╗   ██║   █████╗  ██████╔╝
+██╔══██╗██╔══╝  ██║   ██║██║╚════██║   ██║   ██╔══╝  ██╔══██╗
+██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
+╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝");
+            Write("\nEnter in your full name: ");
             string fullName = ReadLine();
-            Write("\t\t\t\tAre you a boy, girl or other?: ");
+            Write("Enter in your sex: ");
             string gender = ReadLine();
-            Write("\t\t\t\tEnter in your age: ");
+            Write("Enter in your age: ");
             int age = ToInt32(ReadLine());
-            Write("\t\t\t\tEnter in your email: ");
+            Write("Enter in your email: ");
             string email = ReadLine();
-            Write("\t\t\t\tEnter in your phone number: ");
+            Write("Enter in your phone number: ");
             string phone = ReadLine();
             service.Add(new(gender, fullName, email, age, phone));
-            WriteLine("\t\t\t\tInfo saved...");
-            WriteLine("\n\t\t\t\tPress any key to return to main menu.");
+            WriteLine("Info saved...");
+            WriteLine("\nPress any key to return to main menu.");
             ReadKey(true);
             RunMainMenu();
         }
 
         private void RemovePerson()
         {
-            ConsoleKey keyPressed;
             Clear();
-            Write("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\tPress Enter to continue or back space to go back to menu.");
-            ConsoleKeyInfo keyInfo = ReadKey(true);
-            keyPressed = keyInfo.Key;
-
-            if (keyPressed == ConsoleKey.Backspace)
-            {
-                RunMainMenu();
-            }
-            Clear();
-            WriteLine("\t\t\t\t\t\tEnter in the persons ID to remove them :\n");
-            Write("\t\t\t\t\tID: ");
+            CursorVisible = true;
+            WriteLine(@"
+██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗███████╗
+██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██╔════╝
+██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║█████╗  
+██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██╔══╝  
+██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ███████╗
+╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝                                                    
+Enter in the persons ID to remove them");
+            Write("ID: ");
             int id = ToInt32(ReadLine());
             Person found = service.FindById(id);
-            WriteLine($"\t\t\t\t\tPerson to remove :\n{found}");
-            Write($"\n\t\t\t\t\tAre you sure you want to delete {found.FullName}? (Yes/No): ");
+            if (found == null)
+            {
+                WriteLine("\nPress any key to return to main menu.");
+                ReadKey(true);
+                RunMainMenu();
+            }
+            WriteLine($"Person to remove :\n{found}");
+            Write($"\nAre you sure you want to delete {found.FullName}? (Yes/No): ");
             string answer = ReadLine().ToLower();
             if (answer == "yes")
             {
                 service.Delete(found.Id);
-                WriteLine("\n\t\t\t\t\tThe person have been deleted from the list.");
+                WriteLine("\nThe person have been deleted from the list.");
             }
 
-            WriteLine("\n\t\t\t\t\tPress any key to return to main menu.");
+            WriteLine("\nPress any key to return to main menu.");
             ReadKey(true);
             RunMainMenu();
         }
@@ -148,36 +164,43 @@ namespace InteractiveMenuDemo.Service
         private void PrintOutAllMembers()
         {
             Clear();
-            WriteLine("\t\t\t\t\t\tAll members in the register :\n");
+            WriteLine(@"
+███╗   ███╗███████╗███╗   ███╗██████╗ ███████╗██████╗ ███████╗
+████╗ ████║██╔════╝████╗ ████║██╔══██╗██╔════╝██╔══██╗██╔════╝
+██╔████╔██║█████╗  ██╔████╔██║██████╔╝█████╗  ██████╔╝███████╗
+██║╚██╔╝██║██╔══╝  ██║╚██╔╝██║██╔══██╗██╔══╝  ██╔══██╗╚════██║
+██║ ╚═╝ ██║███████╗██║ ╚═╝ ██║██████╔╝███████╗██║  ██║███████║
+╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝");
             List<Person> temp = service.FindAll();
             foreach (Person p in temp)
             {
                 WriteLine($"{p}\n");
             }
-            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
+            WriteLine("\nPress any key to return to find menu.");
             ReadKey(true);
             DisplayFindMenu();
         }
 
         private void FindPersonById()
         {
-            ConsoleKey keyPressed;
             Clear();
-            Write("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\tPress Enter to continue or back space to go back to menu.");
-            ConsoleKeyInfo keyInfo = ReadKey(true);
-            keyPressed = keyInfo.Key;
-
-            if (keyPressed == ConsoleKey.Backspace)
-            {
-                RunMainMenu();
-            }
-            Clear();
-            WriteLine("\t\t\t\t\t\tEnter in the persons ID to find them :\n");
-            Write("\t\t\t\t\tID: ");
+            CursorVisible = true;
+            WriteLine(@"
+███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗    ██╗██████╗ 
+██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝    ██║██╔══██╗
+█████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝     ██║██║  ██║
+██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝      ██║██║  ██║
+██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║       ██║██████╔╝
+╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝       ╚═╝╚═════╝ 
+Enter in the persons ID to find them :");
+            Write("ID: ");
             int id = ToInt32(ReadLine());
             Person found = service.FindById(id);
-            WriteLine($"\t\t\t\t\tPerson found :\n{found}");
-            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
+            if (found != null)
+            {
+                WriteLine($"Person found :\n{found}");
+            }
+            WriteLine("\nPress any key to return to find menu.");
             ReadKey(true);
             DisplayFindMenu();
         }
@@ -185,11 +208,17 @@ namespace InteractiveMenuDemo.Service
         private void DisplayAboutMenu()
         {
             Clear();
-            WriteLine("\t\t\t\t\t\tAbout :\n");
-            WriteLine("\t\t\tThis demo was created by Anton Edholm.");
-            WriteLine("\t\t\tYoutube turtorial - https://www.youtube.com/watch?v=qAWhGEPMlS8&t=1955s.");
-            WriteLine("\t\t\tThe demo was created for learning how to created an interactive menu in C#.");
-            WriteLine("\n\t\t\tPress any key to return to the main menu.");
+            WriteLine(@"
+ █████╗ ██████╗  ██████╗ ██╗   ██╗████████╗
+██╔══██╗██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝
+███████║██████╔╝██║   ██║██║   ██║   ██║   
+██╔══██║██╔══██╗██║   ██║██║   ██║   ██║   
+██║  ██║██████╔╝╚██████╔╝╚██████╔╝   ██║   
+╚═╝  ╚═╝╚═════╝  ╚═════╝  ╚═════╝    ╚═╝");
+            WriteLine("\nThis demo was created by Anton Edholm.");
+            WriteLine("Youtube turtorial - https://www.youtube.com/watch?v=qAWhGEPMlS8&t=1955s.");
+            WriteLine("The demo was created for learning how to created an interactive menu in C#.");
+            WriteLine("\nPress any key to return to the main menu.");
             ReadKey(true);
             RunMainMenu();
         }

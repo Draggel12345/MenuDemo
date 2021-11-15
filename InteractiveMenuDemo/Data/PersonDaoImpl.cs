@@ -17,14 +17,16 @@ namespace InteractiveMenuDemo.Data
 
         Person IPersonDao.FindById(int id)
         {
+            Person toFind = null;
             foreach (KeyValuePair<int, Person> kvp in db)
             {
                 if (kvp.Key == id && id != 0)
                 {
-                    return kvp.Value;
+                    toFind = kvp.Value;
+                    return toFind;
                 }
             }
-            return null;
+            return toFind;
         }
 
         void IPersonDao.Remove(int id)
