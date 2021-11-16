@@ -12,6 +12,7 @@ namespace InteractiveMenuDemo.Data
         Person Save(Person person);
         Person FindById(int id);
         List<Person> FindAll();
+        List<Person> FindGender(string str);
         void Remove(int id);
     }
 }

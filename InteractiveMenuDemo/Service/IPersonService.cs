@@ -12,6 +12,8 @@ namespace InteractiveMenuDemo.Service
         Person Add(Person person);
         Person FindById(int id);
         List<Person> FindAll();
+        List<Person> FindAllMale();
+        List<Person> FindAllFemale();
         void Delete(int id);
     }
 }

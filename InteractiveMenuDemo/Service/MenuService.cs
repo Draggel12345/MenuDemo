@@ -1,4 +1,5 @@
 ﻿using InteractiveMenuDemo.Entitys;
+using InteractiveMenuDemo.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,14 @@ using static System.Convert;
 
 namespace InteractiveMenuDemo.Service
 {
-    class MenuService
+    class MenuService : InputService
     {
         private readonly PersonServiceImpl service = new();
         public void Start()
         {
             Title = "Interactive Menu Demo";
+            service.Add(new Person("male", "Anton Edholm", "anton@mail.com", 26, "123456789"));
+            service.Add(new Person("female", "Anna Hjulstrom", "anna@mail.com", 18, "987654321"));
             RunMainMenu();
         }
 
@@ -22,18 +25,18 @@ namespace InteractiveMenuDemo.Service
         {
             CursorVisible = false;
             string prompt = @"
-███╗   ███╗ █████╗ ██╗███╗   ██╗
-████╗ ████║██╔══██╗██║████╗  ██║
-██╔████╔██║███████║██║██╔██╗ ██║
-██║╚██╔╝██║██╔══██║██║██║╚██╗██║
-██║ ╚═╝ ██║██║  ██║██║██║ ╚████║
-╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝                                                                     
-Use the up and down arrow keys to navigate in the menu
-and press enter to interact.";
+                                          ███╗   ███╗ █████╗ ██╗███╗   ██╗
+                                          ████╗ ████║██╔══██╗██║████╗  ██║
+                                          ██╔████╔██║███████║██║██╔██╗ ██║
+                                          ██║╚██╔╝██║██╔══██║██║██║╚██╗██║
+                                          ██║ ╚═╝ ██║██║  ██║██║██║ ╚████║
+                                          ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝                                                                     
+                              Use the up and down arrow keys to navigate in the menu
+                                          and press enter to interact.";
             string[] options = { "Register Person", "Remove Person", "Find Members", "About", "Exit" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
-
+            
             switch (selectedIndex)
             {
                 case 0:
@@ -68,13 +71,13 @@ and press enter to interact.";
         {
             CursorVisible = false;
             string prompt = @"
-███████╗██╗███╗   ██╗██████╗ 
-██╔════╝██║████╗  ██║██╔══██╗
-█████╗  ██║██╔██╗ ██║██║  ██║
-██╔══╝  ██║██║╚██╗██║██║  ██║
-██║     ██║██║ ╚████║██████╔╝
-╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝ ";
-            string[] options = { "All Members", "Find By Id", "Return To Main Menu" };
+                                           ███████╗██╗███╗   ██╗██████╗ 
+                                           ██╔════╝██║████╗  ██║██╔══██╗
+                                           █████╗  ██║██╔██╗ ██║██║  ██║
+                                           ██╔══╝  ██║██║╚██╗██║██║  ██║
+                                           ██║     ██║██║ ╚████║██████╔╝
+                                           ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝ ";
+            string[] options = { "All Members", "Find All Males", "Find All Females", "Find By Id", "Return To Main Menu" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
 
@@ -87,10 +90,20 @@ and press enter to interact.";
                     }
                 case 1:
                     {
-                        FindPersonById();
+                        PrintOutAllMales();
                         break;
                     }
                 case 2:
+                    {
+                        PrintOutAllFemales();
+                        break;
+                    }
+                case 3:
+                    {
+                        FindPersonById();
+                        break;
+                    }
+                case 4:
                     {
                         RunMainMenu();
                         break;
@@ -103,25 +116,26 @@ and press enter to interact.";
             Clear();
             CursorVisible = true;
             WriteLine(@" 
-██████╗ ███████╗ ██████╗ ██╗███████╗████████╗███████╗██████╗ 
-██╔══██╗██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗
-██████╔╝█████╗  ██║  ███╗██║███████╗   ██║   █████╗  ██████╔╝
-██╔══██╗██╔══╝  ██║   ██║██║╚════██║   ██║   ██╔══╝  ██╔══██╗
-██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
-╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝");
-            Write("\nEnter in your full name: ");
-            string fullName = ReadLine();
-            Write("Enter in your sex: ");
-            string gender = ReadLine();
-            Write("Enter in your age: ");
-            int age = ToInt32(ReadLine());
-            Write("Enter in your email: ");
-            string email = ReadLine();
-            Write("Enter in your phone number: ");
-            string phone = ReadLine();
+                                ██████╗ ███████╗ ██████╗ ██╗███████╗████████╗███████╗██████╗ 
+                                ██╔══██╗██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗
+                                ██████╔╝█████╗  ██║  ███╗██║███████╗   ██║   █████╗  ██████╔╝
+                                ██╔══██╗██╔══╝  ██║   ██║██║╚════██║   ██║   ██╔══╝  ██╔══██╗
+                                ██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
+                                ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
+");
+            Write("\t\t\t\tEnter in your full name: ");
+            string fullName = GetString();
+            Write("\t\t\t\tEnter in your sex: ");
+            string gender = GetString().ToLower();
+            Write("\t\t\t\tEnter in your age: ");
+            int age = GetInt();
+            Write("\t\t\t\tEnter in your email: ");
+            string email = GetString();
+            Write("\t\t\t\tEnter in your phone number: ");
+            string phone = GetString();
             service.Add(new(gender, fullName, email, age, phone));
-            WriteLine("Info saved...");
-            WriteLine("\nPress any key to return to main menu.");
+            WriteLine("\t\t\t\tInfo saved...");
+            WriteLine("\n\t\t\t\tPress any key to return to main menu.");
             ReadKey(true);
             RunMainMenu();
         }
@@ -131,32 +145,32 @@ and press enter to interact.";
             Clear();
             CursorVisible = true;
             WriteLine(@"
-██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗███████╗
-██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██╔════╝
-██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║█████╗  
-██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██╔══╝  
-██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ███████╗
-╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝                                                    
-Enter in the persons ID to remove them");
-            Write("ID: ");
-            int id = ToInt32(ReadLine());
+                                      ██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗███████╗
+                                      ██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██╔════╝
+                                      ██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║█████╗  
+                                      ██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██╔══╝  
+                                      ██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ███████╗
+                                      ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝                                                    
+                                        Enter in the persons ID to remove them");
+            Write("\t\t\t\t\tID: ");
+            int id = GetInt();
             Person found = service.FindById(id);
             if (found == null)
             {
-                WriteLine("\nPress any key to return to main menu.");
+                WriteLine("\n\t\t\t\t\tPress any key to return to main menu.");
                 ReadKey(true);
                 RunMainMenu();
             }
-            WriteLine($"Person to remove :\n{found}");
-            Write($"\nAre you sure you want to delete {found.FullName}? (Yes/No): ");
-            string answer = ReadLine().ToLower();
+            WriteLine($"\t\t\t\t\tPerson to remove :\n{found}");
+            Write($"\n\t\t\t\t\tAre you sure you want to delete {found.FullName}? (Yes/No): ");
+            string answer = GetString().ToLower();
             if (answer == "yes")
             {
                 service.Delete(found.Id);
-                WriteLine("\nThe person have been deleted from the list.");
+                WriteLine("\t\t\t\t\tThe person have been deleted from the list.");
             }
 
-            WriteLine("\nPress any key to return to main menu.");
+            WriteLine("\t\t\t\t\tPress any key to return to main menu.");
             ReadKey(true);
             RunMainMenu();
         }
@@ -165,18 +179,61 @@ Enter in the persons ID to remove them");
         {
             Clear();
             WriteLine(@"
-███╗   ███╗███████╗███╗   ███╗██████╗ ███████╗██████╗ ███████╗
-████╗ ████║██╔════╝████╗ ████║██╔══██╗██╔════╝██╔══██╗██╔════╝
-██╔████╔██║█████╗  ██╔████╔██║██████╔╝█████╗  ██████╔╝███████╗
-██║╚██╔╝██║██╔══╝  ██║╚██╔╝██║██╔══██╗██╔══╝  ██╔══██╗╚════██║
-██║ ╚═╝ ██║███████╗██║ ╚═╝ ██║██████╔╝███████╗██║  ██║███████║
-╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝");
+                                         ███╗   ███╗███████╗███╗   ███╗██████╗ ███████╗██████╗ ███████╗
+                                         ████╗ ████║██╔════╝████╗ ████║██╔══██╗██╔════╝██╔══██╗██╔════╝
+                                         ██╔████╔██║█████╗  ██╔████╔██║██████╔╝█████╗  ██████╔╝███████╗
+                                         ██║╚██╔╝██║██╔══╝  ██║╚██╔╝██║██╔══██╗██╔══╝  ██╔══██╗╚════██║
+                                         ██║ ╚═╝ ██║███████╗██║ ╚═╝ ██║██████╔╝███████╗██║  ██║███████║
+                                         ╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝
+");
             List<Person> temp = service.FindAll();
             foreach (Person p in temp)
             {
                 WriteLine($"{p}\n");
             }
-            WriteLine("\nPress any key to return to find menu.");
+            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
+            ReadKey(true);
+            DisplayFindMenu();
+        }
+
+        private void PrintOutAllMales()
+        {
+            Clear();
+            WriteLine(@"
+                                        ███╗   ███╗ █████╗ ██╗     ███████╗███████╗
+                                        ████╗ ████║██╔══██╗██║     ██╔════╝██╔════╝
+                                        ██╔████╔██║███████║██║     █████╗  ███████╗
+                                        ██║╚██╔╝██║██╔══██║██║     ██╔══╝  ╚════██║
+                                        ██║ ╚═╝ ██║██║  ██║███████╗███████╗███████║
+                                        ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+");
+            List<Person> temp = service.FindAllMale();
+            foreach (Person p in temp)
+            {
+                WriteLine($"{p}\n");
+            }
+            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
+            ReadKey(true);
+            DisplayFindMenu();
+        }
+
+        private void PrintOutAllFemales()
+        {
+            Clear();
+            WriteLine(@"
+                                        ███████╗███████╗███╗   ███╗ █████╗ ██╗     ███████╗███████╗
+                                        ██╔════╝██╔════╝████╗ ████║██╔══██╗██║     ██╔════╝██╔════╝
+                                        █████╗  █████╗  ██╔████╔██║███████║██║     █████╗  ███████╗
+                                        ██╔══╝  ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ██╔══╝  ╚════██║
+                                        ██║     ███████╗██║ ╚═╝ ██║██║  ██║███████╗███████╗███████║
+                                        ╚═╝     ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+");
+            List<Person> temp = service.FindAllFemale();
+            foreach (Person p in temp)
+            {
+                WriteLine($"{p}\n");
+            }
+            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
             ReadKey(true);
             DisplayFindMenu();
         }
@@ -186,21 +243,22 @@ Enter in the persons ID to remove them");
             Clear();
             CursorVisible = true;
             WriteLine(@"
-███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗    ██╗██████╗ 
-██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝    ██║██╔══██╗
-█████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝     ██║██║  ██║
-██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝      ██║██║  ██║
-██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║       ██║██████╔╝
-╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝       ╚═╝╚═════╝ 
-Enter in the persons ID to find them :");
-            Write("ID: ");
-            int id = ToInt32(ReadLine());
+                                        ███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗    ██╗██████╗ 
+                                        ██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝    ██║██╔══██╗
+                                        █████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝     ██║██║  ██║
+                                        ██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝      ██║██║  ██║
+                                        ██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║       ██║██████╔╝
+                                        ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝       ╚═╝╚═════╝ 
+                                          Enter in the persons ID to find them :
+");
+            Write("\t\t\t\t\tID: ");
+            int id = GetInt();
             Person found = service.FindById(id);
             if (found != null)
             {
-                WriteLine($"Person found :\n{found}");
+                WriteLine($"\t\t\t\t\tPerson found :\n{found}");
             }
-            WriteLine("\nPress any key to return to find menu.");
+            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
             ReadKey(true);
             DisplayFindMenu();
         }
@@ -209,16 +267,17 @@ Enter in the persons ID to find them :");
         {
             Clear();
             WriteLine(@"
- █████╗ ██████╗  ██████╗ ██╗   ██╗████████╗
-██╔══██╗██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝
-███████║██████╔╝██║   ██║██║   ██║   ██║   
-██╔══██║██╔══██╗██║   ██║██║   ██║   ██║   
-██║  ██║██████╔╝╚██████╔╝╚██████╔╝   ██║   
-╚═╝  ╚═╝╚═════╝  ╚═════╝  ╚═════╝    ╚═╝");
-            WriteLine("\nThis demo was created by Anton Edholm.");
-            WriteLine("Youtube turtorial - https://www.youtube.com/watch?v=qAWhGEPMlS8&t=1955s.");
-            WriteLine("The demo was created for learning how to created an interactive menu in C#.");
-            WriteLine("\nPress any key to return to the main menu.");
+                                          █████╗ ██████╗  ██████╗ ██╗   ██╗████████╗
+                                         ██╔══██╗██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝
+                                         ███████║██████╔╝██║   ██║██║   ██║   ██║   
+                                         ██╔══██║██╔══██╗██║   ██║██║   ██║   ██║   
+                                         ██║  ██║██████╔╝╚██████╔╝╚██████╔╝   ██║   
+                                         ╚═╝  ╚═╝╚═════╝  ╚═════╝  ╚═════╝    ╚═╝
+");
+            WriteLine("\t\t\t\tThis demo was created by Anton Edholm.");
+            WriteLine("\t\t\t\tYoutube turtorial - https://www.youtube.com/watch?v=qAWhGEPMlS8&t=1955s.");
+            WriteLine("\t\t\t\tThe demo was created for learning how to created an interactive menu in C#.");
+            WriteLine("\n\t\t\t\tPress any key to return to the main menu.");
             ReadKey(true);
             RunMainMenu();
         }

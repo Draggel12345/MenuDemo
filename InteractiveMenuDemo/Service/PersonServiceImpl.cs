@@ -17,7 +17,7 @@ namespace InteractiveMenuDemo.Service
             Person temp = person;
             if(temp == null)
             {
-                WriteLine("The object cant be null.");
+                WriteLine("\t\t\t\t\t\tThe object cant be null.");
             }
             return dao.Save(temp);
         }
@@ -33,7 +33,27 @@ namespace InteractiveMenuDemo.Service
             List<Person> temp = dao.FindAll();
             if (temp?.Any() != true)
             {
-                WriteLine("The database is empty.");
+                WriteLine("\t\t\t\t\t\tThe database is empty.");
+            }
+            return temp;
+        }
+
+        public List<Person> FindAllFemale()
+        {
+            List<Person> temp = dao.FindGender("female");
+            if (temp?.Any() != true)
+            {
+                WriteLine("\t\t\t\t\t\tThe database is empty.");
+            }
+            return temp;
+        }
+
+        public List<Person> FindAllMale()
+        {
+            List<Person> temp = dao.FindGender("male");
+            if (temp?.Any() != true)
+            {
+                WriteLine("\t\t\t\t\t\tThe database is empty.");
             }
             return temp;
         }
@@ -43,7 +63,7 @@ namespace InteractiveMenuDemo.Service
             Person toFind = dao.FindById(id);
             if(toFind == null)
             {
-                WriteLine($"Could not find person with ID:{id} in the database.");
+                WriteLine($"\t\t\t\t\tCould not find person with ID:{id} in the database.");
             }
             return toFind;
         }

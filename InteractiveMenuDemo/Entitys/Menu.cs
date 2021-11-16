@@ -36,8 +36,8 @@ namespace InteractiveMenuDemo.Entitys
                     ForegroundColor = ConsoleColor.White;
                     BackgroundColor = ConsoleColor.Black;
                 }
-
-                WriteLine($"-{currentOption}-");
+                
+                WriteLine($"\n\t\t\t\t\t\t-{currentOption}-");
             }
             ResetColor();
         }

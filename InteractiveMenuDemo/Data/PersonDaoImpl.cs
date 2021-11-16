@@ -10,6 +10,20 @@ namespace InteractiveMenuDemo.Data
     class PersonDaoImpl : IPersonDao
     {
         private readonly Dictionary<int, Person> db = new();
+
+        public List<Person> FindGender(string str)
+        {
+            List<Person> found = new();
+            foreach (KeyValuePair<int, Person> kvp in db)
+            {
+                if (kvp.Value.Gender == str)
+                {
+                    found.Add(kvp.Value);
+                }
+            }
+            return found;
+        }
+
         List<Person> IPersonDao.FindAll()
         {
             return db.Values.ToList();
