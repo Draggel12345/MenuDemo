@@ -407,10 +407,13 @@ namespace InteractiveMenuDemo.Service
                                          ██║  ██║██████╔╝╚██████╔╝╚██████╔╝   ██║   
                                          ╚═╝  ╚═╝╚═════╝  ╚═════╝  ╚═════╝    ╚═╝
 ");
-            WriteLine("\t\t\t\tThis demo was created by Anton Edholm.");
-            WriteLine("\t\t\t\tYoutube turtorial - https://www.youtube.com/watch?v=qAWhGEPMlS8&t=1955s.");
-            WriteLine("\t\t\t\tThe demo was created for learning how to created an interactive menu in C#.");
-            WriteLine("\n\t\t\t\tPress any key to return to the main menu.");
+            WriteLine("\t\t\t\t\tThis demo was created by Anton Edholm.\n");
+            WriteLine("\t\t\tThe demo was created for learning how to created an interactive menu in C#.\n");
+            WriteLine("\t\t\t\t\t\tYoutube turtorial -");
+            WriteLine("\t\t\t\thttps://www.youtube.com/watch?v=qAWhGEPMlS8&t=1955s\n");
+            WriteLine("\t\t\t\t\t\tASCII To Text Generator -");
+            WriteLine("\t\t\t\t\t https://patorjk.com/software/taag/\n");
+            WriteLine("\n\t\t\t\t\tPress any key to return to the main menu.");
             ReadKey(true);
             RunMainMenu();
         }
