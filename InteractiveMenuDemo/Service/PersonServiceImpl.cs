@@ -15,9 +15,9 @@ namespace InteractiveMenuDemo.Service
         public Person Add(Person person)
         {
             Person temp = person;
-            if(temp == null)
+            if (temp == null)
             {
-                WriteLine("\t\t\t\t\t\tThe object cant be null.");
+                WriteLine("\t\t\t\t\tThe object cant be null.");
             }
             return dao.Save(temp);
         }
@@ -33,27 +33,37 @@ namespace InteractiveMenuDemo.Service
             List<Person> temp = dao.FindAll();
             if (temp?.Any() != true)
             {
-                WriteLine("\t\t\t\t\t\tThe database is empty.");
+                WriteLine("\t\t\t\t\tThe database is empty.");
             }
             return temp;
         }
 
-        public List<Person> FindAllFemale()
+        public List<Person> FindByAge(string str)
         {
-            List<Person> temp = dao.FindGender("female");
+            List<Person> temp = dao.FindByAge(str);
             if (temp?.Any() != true)
             {
-                WriteLine("\t\t\t\t\t\tThe database is empty.");
+                WriteLine("\t\t\t\t\tCouldn't find anyone of that age in the database.");
             }
             return temp;
         }
 
-        public List<Person> FindAllMale()
+        public Person FindByEmail(string str)
         {
-            List<Person> temp = dao.FindGender("male");
-            if (temp?.Any() != true)
+            Person toFind = dao.FindByEmail(str);
+            if (toFind == null)
             {
-                WriteLine("\t\t\t\t\t\tThe database is empty.");
+                WriteLine($"\t\t\t\tCouldn't find the person with email: {str} in the database.");
+            }
+            return toFind;
+        }
+
+        public List<Person> FindByGender(string str)
+        {
+            List<Person> temp = dao.FindByGender(str);
+            if(temp?.Any() != true)
+            {
+                WriteLine("\t\t\t\t\tCouldn't find anyone with that gender in the database.");
             }
             return temp;
         }
@@ -61,9 +71,29 @@ namespace InteractiveMenuDemo.Service
         public Person FindById(int id)
         {
             Person toFind = dao.FindById(id);
-            if(toFind == null)
+            if (toFind == null)
             {
-                WriteLine($"\t\t\t\t\tCould not find person with ID:{id} in the database.");
+                WriteLine($"\t\t\t\t\tCouldn't find the person with Id: {id} in the database.");
+            }
+            return toFind;
+        }
+
+        public List<Person> FindByName(string str)
+        {
+            List<Person> temp = dao.FindByName(str);
+            if (temp?.Any() != true)
+            {
+                WriteLine("\t\t\t\t\tCouldn't find anyone with that name in the database.");
+            }
+            return temp;
+        }
+
+        public Person FindByPhoneNumber(string str)
+        {
+            Person toFind = dao.FindByPhoneNumber(str);
+            if (toFind == null)
+            {
+                WriteLine($"\t\t\t\tCouldn't find the person with phone number: {str} in the database.");
             }
             return toFind;
         }

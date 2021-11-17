@@ -36,7 +36,7 @@ namespace InteractiveMenuDemo.Entitys
                     ForegroundColor = ConsoleColor.White;
                     BackgroundColor = ConsoleColor.Black;
                 }
-                
+
                 WriteLine($"\n\t\t\t\t\t\t-{currentOption}-");
             }
             ResetColor();
@@ -54,10 +54,10 @@ namespace InteractiveMenuDemo.Entitys
                 keyPressed = keyInfo.Key;
 
                 // Update SelectedIndex based on arrow keys.
-                if(keyPressed == ConsoleKey.UpArrow)
+                if (keyPressed == ConsoleKey.UpArrow)
                 {
                     SelectedIndex--;
-                    if(SelectedIndex == -1)
+                    if (SelectedIndex == -1)
                     {
                         SelectedIndex = Options.Length - 1;
                     }

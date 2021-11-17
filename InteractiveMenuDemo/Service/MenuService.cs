@@ -16,8 +16,8 @@ namespace InteractiveMenuDemo.Service
         public void Start()
         {
             Title = "Interactive Menu Demo";
-            service.Add(new Person("male", "Anton Edholm", "anton@mail.com", 26, "123456789"));
-            service.Add(new Person("female", "Anna Hjulstrom", "anna@mail.com", 18, "987654321"));
+            service.Add(new Person("Male", "Anton Edholm", "anton@mail.com", 26, "123456789"));
+            service.Add(new Person("Female", "Anna Hjulstrom", "anna@mail.com", 18, "987654321"));
             RunMainMenu();
         }
 
@@ -36,7 +36,7 @@ namespace InteractiveMenuDemo.Service
             string[] options = { "Register Person", "Remove Person", "Find Members", "About", "Exit" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
-            
+
             switch (selectedIndex)
             {
                 case 0:
@@ -77,7 +77,7 @@ namespace InteractiveMenuDemo.Service
                                            ██╔══╝  ██║██║╚██╗██║██║  ██║
                                            ██║     ██║██║ ╚████║██████╔╝
                                            ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝ ";
-            string[] options = { "All Members", "Find All Males", "Find All Females", "Find By Id", "Return To Main Menu" };
+            string[] options = { "Find By Type", "All Members", "Find By ID", "Return To Main Menu" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
 
@@ -85,27 +85,71 @@ namespace InteractiveMenuDemo.Service
             {
                 case 0:
                     {
-                        PrintOutAllMembers();
+                        DisplayFindByTypeMenu();
                         break;
                     }
                 case 1:
                     {
-                        PrintOutAllMales();
+                        PrintOutAllMembers();
                         break;
                     }
                 case 2:
                     {
-                        PrintOutAllFemales();
+                        FindPersonById();
                         break;
                     }
                 case 3:
                     {
-                        FindPersonById();
+                        RunMainMenu();
+                        break;
+                    }
+            }
+        }
+
+        private void DisplayFindByTypeMenu()
+        {
+            CursorVisible = false;
+            string prompt = @"
+               ███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗    ████████╗██╗   ██╗██████╗ ███████╗
+               ██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝    ╚══██╔══╝╚██╗ ██╔╝██╔══██╗██╔════╝
+               █████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝        ██║    ╚████╔╝ ██████╔╝█████╗  
+               ██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝         ██║     ╚██╔╝  ██╔═══╝ ██╔══╝  
+               ██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║          ██║      ██║   ██║     ███████╗
+               ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝          ╚═╝      ╚═╝   ╚═╝     ╚══════╝";
+            string[] options = { "Find By Name", "Find By Age", "Find By Gender", "Find By Email", "Find By Phone Number", "Return To Find Menu" };
+            Menu mainMenu = new(prompt, options);
+            int selectedIndex = mainMenu.Run();
+
+            switch (selectedIndex)
+            {
+                case 0:
+                    {
+                        FindPersonByName();
+                        break;
+                    }
+                case 1:
+                    {
+                        FindPersonByAge();
+                        break;
+                    }
+                case 2:
+                    {
+                        FindPersonByGender();
+                        break;
+                    }
+                case 3:
+                    {
+                        FindPersonByEmail();
                         break;
                     }
                 case 4:
                     {
-                        RunMainMenu();
+                        FindPersonByPhoneNumber();
+                        break;
+                    }
+                case 5:
+                    {
+                        DisplayFindMenu();
                         break;
                     }
             }
@@ -126,7 +170,7 @@ namespace InteractiveMenuDemo.Service
             Write("\t\t\t\tEnter in your full name: ");
             string fullName = GetString();
             Write("\t\t\t\tEnter in your sex: ");
-            string gender = GetString().ToLower();
+            string gender = GetString();
             Write("\t\t\t\tEnter in your age: ");
             int age = GetInt();
             Write("\t\t\t\tEnter in your email: ");
@@ -145,12 +189,12 @@ namespace InteractiveMenuDemo.Service
             Clear();
             CursorVisible = true;
             WriteLine(@"
-                                      ██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗███████╗
-                                      ██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██╔════╝
-                                      ██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║█████╗  
-                                      ██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██╔══╝  
-                                      ██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ███████╗
-                                      ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝                                                    
+                                        ██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗███████╗
+                                        ██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██╔════╝
+                                        ██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║█████╗  
+                                        ██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██╔══╝  
+                                        ██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ███████╗
+                                        ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝                                                    
                                         Enter in the persons ID to remove them");
             Write("\t\t\t\t\tID: ");
             int id = GetInt();
@@ -179,12 +223,12 @@ namespace InteractiveMenuDemo.Service
         {
             Clear();
             WriteLine(@"
-                                         ███╗   ███╗███████╗███╗   ███╗██████╗ ███████╗██████╗ ███████╗
-                                         ████╗ ████║██╔════╝████╗ ████║██╔══██╗██╔════╝██╔══██╗██╔════╝
-                                         ██╔████╔██║█████╗  ██╔████╔██║██████╔╝█████╗  ██████╔╝███████╗
-                                         ██║╚██╔╝██║██╔══╝  ██║╚██╔╝██║██╔══██╗██╔══╝  ██╔══██╗╚════██║
-                                         ██║ ╚═╝ ██║███████╗██║ ╚═╝ ██║██████╔╝███████╗██║  ██║███████║
-                                         ╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝
+                                        ███╗   ███╗███████╗███╗   ███╗██████╗ ███████╗██████╗ ███████╗
+                                        ████╗ ████║██╔════╝████╗ ████║██╔══██╗██╔════╝██╔══██╗██╔════╝
+                                        ██╔████╔██║█████╗  ██╔████╔██║██████╔╝█████╗  ██████╔╝███████╗
+                                        ██║╚██╔╝██║██╔══╝  ██║╚██╔╝██║██╔══██╗██╔══╝  ██╔══██╗╚════██║
+                                        ██║ ╚═╝ ██║███████╗██║ ╚═╝ ██║██████╔╝███████╗██║  ██║███████║
+                                        ╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝
 ");
             List<Person> temp = service.FindAll();
             foreach (Person p in temp)
@@ -196,46 +240,79 @@ namespace InteractiveMenuDemo.Service
             DisplayFindMenu();
         }
 
-        private void PrintOutAllMales()
+        private void FindPersonByName()
         {
             Clear();
+            CursorVisible = true;
             WriteLine(@"
-                                        ███╗   ███╗ █████╗ ██╗     ███████╗███████╗
-                                        ████╗ ████║██╔══██╗██║     ██╔════╝██╔════╝
-                                        ██╔████╔██║███████║██║     █████╗  ███████╗
-                                        ██║╚██╔╝██║██╔══██║██║     ██╔══╝  ╚════██║
-                                        ██║ ╚═╝ ██║██║  ██║███████╗███████╗███████║
-                                        ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+                    ███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗    ███╗   ██╗ █████╗ ███╗   ███╗███████╗
+                    ██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝    ████╗  ██║██╔══██╗████╗ ████║██╔════╝
+                    █████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝     ██╔██╗ ██║███████║██╔████╔██║█████╗  
+                    ██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝      ██║╚██╗██║██╔══██║██║╚██╔╝██║██╔══╝  
+                    ██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║       ██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗
+                    ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝       ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
+                                        Enter in the NAME of the person you're looking for.
 ");
-            List<Person> temp = service.FindAllMale();
+            Write("\t\t\t\t\tName: ");
+            string name = GetString();
+            List<Person> temp = service.FindByName(name);
             foreach (Person p in temp)
             {
                 WriteLine($"{p}\n");
             }
             WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
             ReadKey(true);
-            DisplayFindMenu();
+            DisplayFindByTypeMenu();
         }
 
-        private void PrintOutAllFemales()
+        private void FindPersonByAge()
         {
             Clear();
+            CursorVisible = true;
             WriteLine(@"
-                                        ███████╗███████╗███╗   ███╗ █████╗ ██╗     ███████╗███████╗
-                                        ██╔════╝██╔════╝████╗ ████║██╔══██╗██║     ██╔════╝██╔════╝
-                                        █████╗  █████╗  ██╔████╔██║███████║██║     █████╗  ███████╗
-                                        ██╔══╝  ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ██╔══╝  ╚════██║
-                                        ██║     ███████╗██║ ╚═╝ ██║██║  ██║███████╗███████╗███████║
-                                        ╚═╝     ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+                                ███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗     █████╗  ██████╗ ███████╗
+                                ██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝    ██╔══██╗██╔════╝ ██╔════╝
+                                █████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝     ███████║██║  ███╗█████╗  
+                                ██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝      ██╔══██║██║   ██║██╔══╝  
+                                ██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║       ██║  ██║╚██████╔╝███████╗
+                                ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝       ╚═╝  ╚═╝ ╚═════╝ ╚══════╝                                                                               
+                                        Enter in the AGE(Two digits) of the person you're looking for.
 ");
-            List<Person> temp = service.FindAllFemale();
+            Write("\t\t\t\t\tAge: ");
+            string age = GetString();
+            List<Person> temp = service.FindByAge(age);
             foreach (Person p in temp)
             {
                 WriteLine($"{p}\n");
             }
             WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
             ReadKey(true);
-            DisplayFindMenu();
+            DisplayFindByTypeMenu();
+        }
+
+        private void FindPersonByGender()
+        {
+            Clear();
+            CursorVisible = true;
+            WriteLine(@"
+      ███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗     ██████╗ ███████╗███╗   ██╗██████╗ ███████╗██████╗ 
+      ██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝    ██╔════╝ ██╔════╝████╗  ██║██╔══██╗██╔════╝██╔══██╗
+      █████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝     ██║  ███╗█████╗  ██╔██╗ ██║██║  ██║█████╗  ██████╔╝
+      ██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝      ██║   ██║██╔══╝  ██║╚██╗██║██║  ██║██╔══╝  ██╔══██╗
+      ██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║       ╚██████╔╝███████╗██║ ╚████║██████╔╝███████╗██║  ██║
+      ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝        ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝                                                                               
+                      Enter in the GENDER(Male/Female) of the person you're looking for.
+");
+            Write("\t\t\t\t\tGender: ");
+            string gender = GetString();
+            List<Person> temp = service.FindByGender(gender);
+            foreach (Person p in temp)
+            {
+                WriteLine($"{p}\n");
+            }
+            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
+            ReadKey(true);
+            DisplayFindByTypeMenu();
         }
 
         private void FindPersonById()
@@ -249,7 +326,7 @@ namespace InteractiveMenuDemo.Service
                                         ██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝      ██║██║  ██║
                                         ██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║       ██║██████╔╝
                                         ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝       ╚═╝╚═════╝ 
-                                          Enter in the persons ID to find them :
+                                        Enter in the ID of the person you're looking for.
 ");
             Write("\t\t\t\t\tID: ");
             int id = GetInt();
@@ -261,6 +338,62 @@ namespace InteractiveMenuDemo.Service
             WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
             ReadKey(true);
             DisplayFindMenu();
+        }
+
+        private void FindPersonByEmail()
+        {
+            Clear();
+            CursorVisible = true;
+            WriteLine(@"
+                   ███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗    ███████╗███╗   ███╗ █████╗ ██╗██╗     
+                   ██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝    ██╔════╝████╗ ████║██╔══██╗██║██║     
+                   █████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝     █████╗  ██╔████╔██║███████║██║██║     
+                   ██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝      ██╔══╝  ██║╚██╔╝██║██╔══██║██║██║     
+                   ██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║       ███████╗██║ ╚═╝ ██║██║  ██║██║███████╗
+                   ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝       ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚══════╝
+                                   Enter in the EMAIL of the person you're looking for.
+");
+            Write("\t\t\t\t\tEmail: ");
+            string email = GetString();
+            Person found = service.FindByEmail(email);
+            if (found != null)
+            {
+                WriteLine($"\t\t\t\t\tPerson found :\n{found}");
+            }
+            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
+            ReadKey(true);
+            DisplayFindByTypeMenu();
+        }
+
+        private void FindPersonByPhoneNumber()
+        {
+            Clear();
+            CursorVisible = true;
+            WriteLine(@"
+                                 ███████╗██╗███╗   ██╗██████╗     ██████╗ ██╗   ██╗
+                                 ██╔════╝██║████╗  ██║██╔══██╗    ██╔══██╗╚██╗ ██╔╝
+                                 █████╗  ██║██╔██╗ ██║██║  ██║    ██████╔╝ ╚████╔╝ 
+                                 ██╔══╝  ██║██║╚██╗██║██║  ██║    ██╔══██╗  ╚██╔╝  
+                                 ██║     ██║██║ ╚████║██████╔╝    ██████╔╝   ██║   
+                                 ╚═╝     ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═════╝    ╚═╝   
+          ██████╗ ██╗  ██╗ ██████╗ ███╗   ██╗███████╗    ███╗   ██╗██╗   ██╗███╗   ███╗██████╗ ███████╗██████╗ 
+          ██╔══██╗██║  ██║██╔═══██╗████╗  ██║██╔════╝    ████╗  ██║██║   ██║████╗ ████║██╔══██╗██╔════╝██╔══██╗
+          ██████╔╝███████║██║   ██║██╔██╗ ██║█████╗      ██╔██╗ ██║██║   ██║██╔████╔██║██████╔╝█████╗  ██████╔╝
+          ██╔═══╝ ██╔══██║██║   ██║██║╚██╗██║██╔══╝      ██║╚██╗██║██║   ██║██║╚██╔╝██║██╔══██╗██╔══╝  ██╔══██╗
+          ██║     ██║  ██║╚██████╔╝██║ ╚████║███████╗    ██║ ╚████║╚██████╔╝██║ ╚═╝ ██║██████╔╝███████╗██║  ██║
+          ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝    ╚═╝  ╚═══╝ ╚═════╝ ╚═╝     ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝                                                                                                                                      
+                                   Enter in the PHONE NUMBER of the person you're looking for.
+");
+            Write("\t\t\t\t\tPhone Number: ");
+            string phoneNumber = GetString();
+            Person found = service.FindByPhoneNumber(phoneNumber);
+            if (found != null)
+            {
+                WriteLine($"\t\t\t\t\tPerson found :\n{found}");
+            }
+            WriteLine("\n\t\t\t\t\tPress any key to return to find menu.");
+            ReadKey(true);
+            DisplayFindByTypeMenu();
         }
 
         private void DisplayAboutMenu()

@@ -11,8 +11,12 @@ namespace InteractiveMenuDemo.Data
     {
         Person Save(Person person);
         Person FindById(int id);
+        Person FindByEmail(string str);
+        Person FindByPhoneNumber(string str);
         List<Person> FindAll();
-        List<Person> FindGender(string str);
+        List<Person> FindByAge(string str);
+        List<Person> FindByGender(string str);
+        List<Person> FindByName(string str);
         void Remove(int id);
     }
 }

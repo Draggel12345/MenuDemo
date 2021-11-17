@@ -11,9 +11,12 @@ namespace InteractiveMenuDemo.Service
     {
         Person Add(Person person);
         Person FindById(int id);
+        Person FindByEmail(string str);
+        Person FindByPhoneNumber(string str);
         List<Person> FindAll();
-        List<Person> FindAllMale();
-        List<Person> FindAllFemale();
+        List<Person> FindByAge(string str);
+        List<Person> FindByGender(string str);
+        List<Person> FindByName(string str);
         void Delete(int id);
     }
 }
