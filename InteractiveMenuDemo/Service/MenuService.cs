@@ -4,20 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Console;
 using static System.Convert;
 
 namespace InteractiveMenuDemo.Service
 {
-    class MenuService : InputService
+    class MenuService : JsonService
     {
+        
+        private readonly InputService input = new();
         private readonly PersonServiceImpl service = new();
+        public List<Person> PeopleList { get; set; }
+        const string FILEPATH = @"C:\Users\Anton\source\repos\MenuDemo\InteractiveMenuDemo\Util\PeopleJson\PeopleDB.json";
+
         public void Start()
         {
             Title = "Interactive Menu Demo";
-            service.Add(new Person("Male", "Anton Edholm", "anton@mail.com", 26, "123456789"));
-            service.Add(new Person("Female", "Anna Hjulstrom", "anna@mail.com", 18, "987654321"));
+            ReadFromJsonFile();
             RunMainMenu();
         }
 
@@ -33,7 +38,7 @@ namespace InteractiveMenuDemo.Service
                                           ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝                                                                     
                               Use the up and down arrow keys to navigate in the menu
                                           and press enter to interact.";
-            string[] options = { "Register Person", "Remove Person", "Find Members", "About", "Exit" };
+            string[] options = {"Register Person", "Remove Person", "Find Members", "About", "Save & Exit" };
             Menu mainMenu = new(prompt, options);
             int selectedIndex = mainMenu.Run();
 
@@ -61,10 +66,21 @@ namespace InteractiveMenuDemo.Service
                     }
                 case 4:
                     {
-                        ExitApplication();
+                        SaveAndExitApplication();
                         break;
                     }
             }
+        }
+
+        private void ReadFromJsonFile()
+        {
+            PeopleList = ReadFromJsonFile<List<Person>>(FILEPATH);
+            PeopleList.ForEach(p => service.Add(p));
+        }
+        private void SaveAndExitApplication()
+        {
+            WriteToJsonFile(FILEPATH, PeopleList);
+            Environment.Exit(0);
         }
 
         private void DisplayFindMenu()
@@ -167,17 +183,8 @@ namespace InteractiveMenuDemo.Service
                                 ██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
                                 ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 ");
-            Write("\t\t\t\tEnter in your full name: ");
-            string fullName = GetString();
-            Write("\t\t\t\tEnter in your sex: ");
-            string gender = GetString();
-            Write("\t\t\t\tEnter in your age: ");
-            int age = GetInt();
-            Write("\t\t\t\tEnter in your email: ");
-            string email = GetString();
-            Write("\t\t\t\tEnter in your phone number: ");
-            string phone = GetString();
-            service.Add(new(gender, fullName, email, age, phone));
+
+            service.CreatePerson();
             WriteLine("\t\t\t\tInfo saved...");
             WriteLine("\n\t\t\t\tPress any key to return to main menu.");
             ReadKey(true);
@@ -197,7 +204,7 @@ namespace InteractiveMenuDemo.Service
                                         ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝                                                    
                                         Enter in the persons ID to remove them");
             Write("\t\t\t\t\tID: ");
-            int id = GetInt();
+            int id = input.GetInt();
             Person found = service.FindById(id);
             if (found == null)
             {
@@ -207,7 +214,7 @@ namespace InteractiveMenuDemo.Service
             }
             WriteLine($"\t\t\t\t\tPerson to remove :\n{found}");
             Write($"\n\t\t\t\t\tAre you sure you want to delete {found.FullName}? (Yes/No): ");
-            string answer = GetString().ToLower();
+            string answer = input.GetString().ToLower();
             if (answer == "yes")
             {
                 service.Delete(found.Id);
@@ -230,8 +237,8 @@ namespace InteractiveMenuDemo.Service
                                         ██║ ╚═╝ ██║███████╗██║ ╚═╝ ██║██████╔╝███████╗██║  ██║███████║
                                         ╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝
 ");
-            List<Person> temp = service.FindAll();
-            foreach (Person p in temp)
+            PeopleList = service.FindAll();
+            foreach (Person p in PeopleList)
             {
                 WriteLine($"{p}\n");
             }
@@ -254,9 +261,9 @@ namespace InteractiveMenuDemo.Service
                                         Enter in the NAME of the person you're looking for.
 ");
             Write("\t\t\t\t\tName: ");
-            string name = GetString();
-            List<Person> temp = service.FindByName(name);
-            foreach (Person p in temp)
+            string name = input.GetString();
+            PeopleList = service.FindByName(name);
+            foreach (Person p in PeopleList)
             {
                 WriteLine($"{p}\n");
             }
@@ -279,9 +286,9 @@ namespace InteractiveMenuDemo.Service
                                         Enter in the AGE(Two digits) of the person you're looking for.
 ");
             Write("\t\t\t\t\tAge: ");
-            string age = GetString();
-            List<Person> temp = service.FindByAge(age);
-            foreach (Person p in temp)
+            string age = input.GetString();
+            PeopleList = service.FindByAge(age);
+            foreach (Person p in PeopleList)
             {
                 WriteLine($"{p}\n");
             }
@@ -304,9 +311,9 @@ namespace InteractiveMenuDemo.Service
                       Enter in the GENDER(Male/Female) of the person you're looking for.
 ");
             Write("\t\t\t\t\tGender: ");
-            string gender = GetString();
-            List<Person> temp = service.FindByGender(gender);
-            foreach (Person p in temp)
+            string gender = input.GetString();
+            PeopleList = service.FindByGender(gender);
+            foreach (Person p in PeopleList)
             {
                 WriteLine($"{p}\n");
             }
@@ -329,7 +336,7 @@ namespace InteractiveMenuDemo.Service
                                         Enter in the ID of the person you're looking for.
 ");
             Write("\t\t\t\t\tID: ");
-            int id = GetInt();
+            int id = input.GetInt();
             Person found = service.FindById(id);
             if (found != null)
             {
@@ -354,7 +361,7 @@ namespace InteractiveMenuDemo.Service
                                    Enter in the EMAIL of the person you're looking for.
 ");
             Write("\t\t\t\t\tEmail: ");
-            string email = GetString();
+            string email = input.GetString();
             Person found = service.FindByEmail(email);
             if (found != null)
             {
@@ -385,7 +392,7 @@ namespace InteractiveMenuDemo.Service
                                    Enter in the PHONE NUMBER of the person you're looking for.
 ");
             Write("\t\t\t\t\tPhone Number: ");
-            string phoneNumber = GetString();
+            string phoneNumber = input.GetString();
             Person found = service.FindByPhoneNumber(phoneNumber);
             if (found != null)
             {
@@ -416,11 +423,6 @@ namespace InteractiveMenuDemo.Service
             WriteLine("\n\t\t\t\t\tPress any key to return to the main menu.");
             ReadKey(true);
             RunMainMenu();
-        }
-
-        private static void ExitApplication()
-        {
-            Environment.Exit(0);
         }
     }
 }

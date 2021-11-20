@@ -1,0 +1,34 @@
+[
+  {
+    "Id": 1,
+    "Gender": "Male",
+    "FullName": "David Hellman",
+    "Email": "david@mail.com",
+    "Age": 29,
+    "PhoneNumber": "123456789"
+  },
+  {
+    "Id": 2,
+    "Gender": "Male",
+    "FullName": "Anton Edholm",
+    "Email": "anton@mail.com",
+    "Age": 26,
+    "PhoneNumber": "123456987"
+  },
+  {
+    "Id": 3,
+    "Gender": "Female",
+    "FullName": "Anna Hjulstrom",
+    "Email": "anna@mail.com",
+    "Age": 18,
+    "PhoneNumber": "987456654"
+  },
+  {
+    "Id": 4,
+    "Gender": "Male",
+    "FullName": "Stefan Ekelund",
+    "Email": "stefan@mail.com",
+    "Age": 27,
+    "PhoneNumber": "070080914"
+  }
+]

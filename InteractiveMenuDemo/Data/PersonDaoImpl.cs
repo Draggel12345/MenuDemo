@@ -11,7 +11,6 @@ namespace InteractiveMenuDemo.Data
     {
         private readonly Dictionary<int, Person> db = new();
 
-
         List<Person> IPersonDao.FindAll()
         {
             return db.Values.ToList();

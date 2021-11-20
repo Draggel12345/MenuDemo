@@ -1,4 +1,6 @@
-﻿using System;
+﻿using InteractiveMenuDemo.Entitys;
+using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +9,20 @@ using static System.Console;
 
 namespace InteractiveMenuDemo.Util
 {
-    class InputService : IInput
+    public class InputService : IInput
     {
+        public string SerializingObject(object obj)
+        {
+            string str = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            return str;
+        }
+
+        public Object DeserializingObject<Object>(string str)
+        {
+            Object obj = JsonConvert.DeserializeObject<Object>(str);
+            return obj;
+        }
+
         public int GetInt()
         {
             int integer;
@@ -31,5 +45,7 @@ namespace InteractiveMenuDemo.Util
             }
             return str;
         }
+
+
     }
 }
