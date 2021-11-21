@@ -23,10 +23,8 @@ namespace InteractiveMenuDemo.Entitys
         public Person(string gender, string fullName, string email, int age, string phoneNumber) => (Id, Gender, FullName, Email, Age, PhoneNumber) = (++IdCounter, gender, fullName, email, age, phoneNumber);
 
         //When using Json IO you need a defualt constructor for safety.
-        public Person()
-        {
+        public Person() { }
 
-        }
         public override string ToString()
         {
             return $"\tID: {Id}.\n\tGender: {Gender}.\n\tFull name: {FullName}. Age: {Age}{(Age > 1 ? " years old." : "year old.")}\tEmail: {Email}. Phone number: {PhoneNumber}.";

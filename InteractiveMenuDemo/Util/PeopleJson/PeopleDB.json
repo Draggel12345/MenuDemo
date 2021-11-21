@@ -30,5 +30,13 @@
     "Email": "stefan@mail.com",
     "Age": 27,
     "PhoneNumber": "070080914"
+  },
+  {
+    "Id": 5,
+    "Gender": "Male",
+    "FullName": "Mats Hjulstrom",
+    "Email": "mats@mail.com",
+    "Age": 56,
+    "PhoneNumber": "998866552"
   }
 ]

@@ -2,6 +2,7 @@
 using InteractiveMenuDemo.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,13 +18,30 @@ namespace InteractiveMenuDemo.Service
         private readonly InputService input = new();
         private readonly PersonServiceImpl service = new();
         public List<Person> PeopleList { get; set; }
-        const string FILEPATH = @"C:\Users\Anton\source\repos\MenuDemo\InteractiveMenuDemo\Util\PeopleJson\PeopleDB.json";
+
+        //Static
+        private static readonly string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string sFile = Path.Combine(sCurrentDirectory, @"..\..\..\Util\PeopleJson\PeopleDB.json");
+        //Can't make changes to file if static
+        private readonly string FILEPATH = Path.GetFullPath(sFile);
 
         public void Start()
         {
             Title = "Interactive Menu Demo";
             ReadFromJsonFile();
             RunMainMenu();
+        }
+
+        private void ReadFromJsonFile()
+        {
+            PeopleList = ReadFromJsonFile<List<Person>>(FILEPATH);
+            PeopleList.ForEach(p => service.Add(p));
+        }
+
+        private void SaveAndExitApplication()
+        {
+            WriteToJsonFile(FILEPATH, PeopleList);
+            Environment.Exit(0);
         }
 
         private void RunMainMenu()
@@ -70,17 +88,6 @@ namespace InteractiveMenuDemo.Service
                         break;
                     }
             }
-        }
-
-        private void ReadFromJsonFile()
-        {
-            PeopleList = ReadFromJsonFile<List<Person>>(FILEPATH);
-            PeopleList.ForEach(p => service.Add(p));
-        }
-        private void SaveAndExitApplication()
-        {
-            WriteToJsonFile(FILEPATH, PeopleList);
-            Environment.Exit(0);
         }
 
         private void DisplayFindMenu()
