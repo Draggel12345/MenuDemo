@@ -13,7 +13,6 @@ namespace InteractiveMenuDemo.Service
     class PersonServiceImpl : IPersonService
     {
         private readonly IPersonDao dao = new PersonDaoImpl();
-        private readonly InputService input = new();
         public Person Add(Person person)
         {
             Person temp = person;
@@ -22,22 +21,6 @@ namespace InteractiveMenuDemo.Service
                 WriteLine("\t\t\t\t\tThe object cant be null.");
             }
             return dao.Save(temp);
-        }
-
-        public void CreatePerson()
-        {
-            Write("\t\t\t\tEnter in your full name: ");
-            string fullName = input.GetString();
-            Write("\t\t\t\tEnter in your sex: ");
-            string gender = input.GetString();
-            Write("\t\t\t\tEnter in your age: ");
-            int age = input.GetInt();
-            Write("\t\t\t\tEnter in your email: ");
-            string email = input.GetString();
-            Write("\t\t\t\tEnter in your phone number: ");
-            string phone = input.GetString();
-
-            Add(new(gender, fullName, email, age, phone));
         }
 
         public void Delete(int id)

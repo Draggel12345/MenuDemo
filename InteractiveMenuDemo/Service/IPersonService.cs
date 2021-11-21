@@ -10,7 +10,6 @@ namespace InteractiveMenuDemo.Service
     interface IPersonService
     {
         Person Add(Person person);
-        void CreatePerson();
         Person FindById(int id);
         Person FindByEmail(string str);
         Person FindByPhoneNumber(string str);

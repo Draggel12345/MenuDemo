@@ -29,7 +29,7 @@ namespace InteractiveMenuDemo.Entitys
         }
         public override string ToString()
         {
-            return $"\t\t\t\t\tINFO -\n\t\t\t\t\tID: {Id}.\n\t\t\t\t\tGender: {Gender}.\n\t\t\t\t\tFull name: {FullName}.\n\t\t\t\t\tAge: {Age}{(Age > 1 ? " years old." : "year old.")}\n\t\t\t\t\tCONTACT INFO -\n\t\t\t\t\tEmail: {Email}.\n\t\t\t\t\tPhone number: {PhoneNumber}.";
+            return $"\tID: {Id}.\n\tGender: {Gender}.\n\tFull name: {FullName}. Age: {Age}{(Age > 1 ? " years old." : "year old.")}\tEmail: {Email}. Phone number: {PhoneNumber}.";
         }
     }
 }
